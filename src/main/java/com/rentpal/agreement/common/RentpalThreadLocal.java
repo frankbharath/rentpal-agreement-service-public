@@ -53,6 +53,6 @@ public class RentpalThreadLocal {
      * Clears the ThreadLocal before a response is sent to the client.
      */
     public static void clear() {
-        LOCAL.get().clear();
+        //LOCAL.get().clear();
     }
 }

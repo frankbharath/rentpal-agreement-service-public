@@ -91,8 +91,12 @@ public class PropertyController {
     }
 
     @PutMapping(value = "/{id}/units/{unitId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> updateUnitToProperty(@PathVariable Long id, @PathVariable Long unitId, @RequestBody Unit unit){
+    public ResponseEntity<Object> updateUnitToProperty(@PathVariable Long id, @PathVariable Long unitId, @RequestBody Unit unit,  BindingResult bindingResult) throws BindException {
         unit.setId(unitId);
+        unitValidator.validate(unit, bindingResult);
+        if(bindingResult.hasErrors()){
+            throw new BindException(bindingResult);
+        }
         return new ResponseEntity<>(Utils.getApiRequestResponse(propertyService.updateUnitToProperty(id, unit)), HttpStatus.OK);
     }
 
