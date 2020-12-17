@@ -39,6 +39,7 @@ Unit Object<br/>
 
 ## Tools and Technologies
 - Spring boot - To build restful service.
+- Spring eureka - Agreement registers with eureka for service discovery.
 - Language - Java 11
 - Unit testing - Powermockito(to test private and static method), JUnit 4
 - Database - PostgreSQL(FTS using GIN)
