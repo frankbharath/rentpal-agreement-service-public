@@ -1,3 +1,3 @@
 ## Table of contents
-* Introduction
-* 
+* [Introduction](#introduction)
+* [Problems and proposed solution](#problems-and-proposed solution)
