@@ -27,6 +27,9 @@ Now can we do this in a better way? I think we can and use the concept of electr
 | /properties/{id} | PUT | application/json | <p>{<br>"id":1,<br>"propertyName":"Maison", <br> "addressLine1":"10B", <br>"addressLine2":"Place Des Martrys",<br> "city":"Choisy", <br>"postal":"94400"<br>}</p> | <p>Success - 200 <br> Errors - 400, 422</p> |{propertyobject}|
 | /properties/{id}  | DELETE  | N/A | N/A | <p>Success - 204 <br> Errors - 400</p> |N/A|
 |/properties/{id}/units| GET | N/A | N/A | <p>Success - 200 <br> Errors - 400</p> |[{unitobject},{unitobject}]|
+|/properties/{id}/units| POST | application/json | <p>{<br/>"area":12.11,<br/> "bathrooms":12124545.12,<br/> "bedrooms":5,<br/> "cautionDeposit": 450,<br/> "doorNumber":"10A",<br/> "floorNumber":2,<br/> "furnished":true,<br/> "rent": 400<br/>}</p> | <p>Success - 200 <br> Errors - 400, 422</p> |{unitobject}|
+|/properties/{id}/units/{unitid}| PUT | application/json | <p>{<br/>"id":2,<br/>"area":12.11,<br/> "bathrooms":12124545.12,<br/> "bedrooms":5,<br/> "cautionDeposit": 450,<br/> "doorNumber":"10A",<br/> "floorNumber":2,<br/> "furnished":true,<br/> "rent": 400<br/>}</p> | <p>Success - 200 <br> Errors - 400, 422</p> |{unitobject}|
+| /properties/{id}/units/{unitid}  | DELETE  | N/A | N/A | <p>Success - 204 <br> Errors - 400</p> |N/A|
 
 1) 200 - Successful 
 2) 204 - Successful with no body
