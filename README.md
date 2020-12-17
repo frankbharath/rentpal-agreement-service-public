@@ -31,7 +31,7 @@ Now can we do this in a better way? I think we can and use the concept of electr
 3) 400 - Bad request, in case if invalid value in request url
 4) 422 - Invalid parameters
 
-Property Object
+Property Object<br/>
 ```{"propertyName":"Maison", "addressLine1":"10B", "addressLine2":"Place Des Martrys", "city":"Choisy", "postal":"94400"}```
 
 Unit Object<br/>
