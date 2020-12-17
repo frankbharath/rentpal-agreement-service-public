@@ -1,6 +1,6 @@
 ## Table of contents
 * [Introduction](#introduction)
-* [Problems and Proposed Solution](#problems-and-proposed solution)
+* [Problems and Proposed Solution](#problems-and-proposed-solution)
 
 ## Introduction
 The inception of the computer has revolutionized the way we approach a problem. An example could be, as a student in a foreign country, I had to renew my visa. The process was not easy as I had to get an appointment which was very tough to book. After having the appointment, I had to make sure that I have all the documents with me. Unfortunately, I had a document missing that denied my visa and I had to wait for another 45 days to book an appointment.
