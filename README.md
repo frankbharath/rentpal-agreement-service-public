@@ -37,4 +37,7 @@ Now can we do this in a better way? I think we can and use the concept of electr
 4) 422 - Invalid parameters
 
 ## Tools and Technologies
-- Spring boot - To build restful service
+- Spring boot - To build restful service.
+- Language - Java 11
+- Unit testing - Powermockito(to test private and static method), JUnit 4
+- Database - PostgreSQL(FTS using GIN)
