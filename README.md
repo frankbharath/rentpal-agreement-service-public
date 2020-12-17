@@ -32,7 +32,7 @@ Now can we do this in a better way? I think we can and use the concept of electr
 4) 422 - Invalid parameters
 
 Property Object
-<p>{<br>"id":1,<br>"propertyName":"Maison", <br> "addressLine1":"10B", <br>"addressLine2":"Place Des Martrys",<br> "city":"Choisy", <br>"postal":"94400"<br>}</p>
+```{"propertyName":"Maison", "addressLine1":"10B", "addressLine2":"Place Des Martrys", "city":"Choisy", "postal":"94400"}```
 
 Unit Object<br/>
 ```{"area":12.11, "bathrooms":1, "bedrooms":5, "cautionDeposit": 450, "doorNumber":"10A", "floorNumber":2, "furnished":true, "rent": 400}```
