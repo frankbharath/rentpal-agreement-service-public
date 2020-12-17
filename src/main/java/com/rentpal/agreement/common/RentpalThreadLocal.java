@@ -1,6 +1,6 @@
 package com.rentpal.agreement.common;
 
-/*
+/**
  * @author frank
  * @created 14 Dec,2020 - 9:05 PM
  */
@@ -53,6 +53,6 @@ public class RentpalThreadLocal {
      * Clears the ThreadLocal before a response is sent to the client.
      */
     public static void clear() {
-        //LOCAL.get().clear();
+        LOCAL.get().clear();
     }
 }

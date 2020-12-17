@@ -12,8 +12,9 @@ import com.rentpal.agreement.model.Property;
 import com.rentpal.agreement.model.Unit;
 
 public class DTOModelMapper {
+
     /**
-     * Convert property domain model to property DTO
+     * Converts property domain model to DTO
      *
      * @param property the property
      * @return the property DTO
@@ -31,6 +32,12 @@ public class DTOModelMapper {
         return propertyDTO;
     }
 
+    /**
+     * Converts unit domain model to DTO
+     *
+     * @param property the property
+     * @return the property DTO
+     */
     public static UnitDTO unitModelDTOMapper(Unit unit){
         UnitDTO unitDTO=new UnitDTO();
         unitDTO.setId(unit.getId());

@@ -1,7 +1,4 @@
-package com.rentpal.agreement.service;/*
- * @author frank
- * @created 14 Dec,2020 - 11:59 PM
- */
+package com.rentpal.agreement.service;
 
 import com.rentpal.agreement.model.User;
 import com.rentpal.agreement.repository.UserRepository;
@@ -11,12 +8,23 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+/**
+ *
+ * @author frank
+ * @created 14 Dec,2020 - 11:59 PM
+ * Service class that adds user to database if not exists.
+ */
 @Transactional
 @Service
 public class AccountServiceImpl implements AccountService {
 
     private final UserRepository userRepository;
 
+    /**
+     * Instantiates a new Account service.
+     *
+     * @param userRepository the user repository
+     */
     @Autowired
     public AccountServiceImpl (UserRepository userRepository){
         this.userRepository=userRepository;

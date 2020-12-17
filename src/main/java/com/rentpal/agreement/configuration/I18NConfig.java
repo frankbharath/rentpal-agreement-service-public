@@ -23,22 +23,17 @@ import java.util.Locale;
  */
 @Configuration
 public class I18NConfig implements WebMvcConfigurer  {
-	
-	/** The message resource. */
-	private static MessageSource messageResource;
-	
+
 	/**
 	 * Message source.
 	 *
 	 * @return the message source
 	 */
-	//This bean is used in Utils.java
 	@Bean("messageSource")
 	public MessageSource messageSource() {
 	    ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
 	    messageSource.setBasenames("i18n/messages","i18n/countries");
 	    messageSource.setDefaultEncoding("UTF-8");
-	    messageResource=messageSource;
 	    return messageSource;
 	}
 	
@@ -66,25 +61,4 @@ public class I18NConfig implements WebMvcConfigurer  {
 	    localeChangeInterceptor.setIgnoreInvalidLocale(true);
 	    registry.addInterceptor(localeChangeInterceptor);
 	 }
-	
-	/**
-	 * Gets the message for given key.
-	 *
-	 * @param key the key
-	 * @return the message
-	 */
-	public static String getMessage(String key) {
-		return getMessage(key,null);
-	}
-	
-	/**
-	 * Gets the message for given key and dynamic values.
-	 *
-	 * @param key the key
-	 * @param objs the objs
-	 * @return the message
-	 */
-	public static String getMessage(String key, Object[] objs) {
-		return messageResource.getMessage(key, objs,LocaleContextHolder.getLocale());
-	}
 }

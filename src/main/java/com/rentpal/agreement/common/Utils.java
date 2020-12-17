@@ -1,10 +1,5 @@
 package com.rentpal.agreement.common;
 
-/*
- * @author frank
- * @created 12 Dec,2020 - 3:24 AM
- */
-
 import com.rentpal.agreement.model.APIRequestResponse;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -14,6 +9,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * @author frank
+ * @created 12 Dec,2020 - 3:24 AM
+ *
+ * Utility class holding common functions
+ */
 public class Utils {
     /**
      * Gets the api request response.
@@ -33,7 +34,7 @@ public class Utils {
     }
 
     /**
-     * Gets the date.
+     * Gets the date for given milliseconds.
      *
      * @param milliseconds the milliseconds
      * @return the date
@@ -69,9 +70,25 @@ public class Utils {
         return null;
     }
 
+    /**
+     * Gets the localized message string.
+     *
+     * @param messageSource the message source
+     * @param key           the key
+     * @return the string
+     */
     public static String getMessage(final MessageSource messageSource, final String key){
         return getMessage(messageSource, key, null);
     }
+
+    /**
+     * Gets the localized message string for parameters.
+     *
+     * @param messageSource the message source
+     * @param key           the key
+     * @param args          the args
+     * @return the string
+     */
     public static String getMessage(final MessageSource messageSource, final String key, final Object ...args){
         String message=key;
         try{

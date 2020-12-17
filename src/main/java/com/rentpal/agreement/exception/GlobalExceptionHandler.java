@@ -22,17 +22,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
+/**
  * @author frank
  * @created 14 Dec,2020 - 9:36 PM
+ * A global exceptional handler for all the exceptions.
  */
-
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     private final MessageSource messageSource;
 
+    /**
+     * Instantiates a new Global exception handler.
+     *
+     * @param messageSource the message source
+     */
     @Autowired
     public GlobalExceptionHandler(MessageSource messageSource){
         this.messageSource=messageSource;
@@ -41,10 +46,10 @@ public class GlobalExceptionHandler {
     /**
      * Handle API request exception.
      *
-     * @param exception        the exception
+     * @param exception the exception
+     * @return response entity
      * @throws IOException      Signals that an I/O exception has occurred.
      * @throws ServletException the servlet exception
-     * @return
      */
     @ExceptionHandler(value= {APIRequestException.class})
     public ResponseEntity<APIException> handleAPIRequestException(APIRequestException exception){
@@ -56,6 +61,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Exception handler for parameters that has invalid data.
+     *
+     * @param exception the exception
+     * @return the response entity
+     */
     @ExceptionHandler(value= {MethodArgumentTypeMismatchException.class})
     public ResponseEntity<APIException> handleInvalidParameter(MethodArgumentTypeMismatchException exception){
         log.error(exception.getMessage(), exception);
@@ -67,7 +78,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Handle bind exception response entity.
+     * Exception handler for domain objects that has invalid data.
      *
      * @param ex the ex
      * @return the response entity

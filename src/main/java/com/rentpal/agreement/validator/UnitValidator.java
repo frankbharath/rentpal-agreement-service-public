@@ -1,10 +1,5 @@
 package com.rentpal.agreement.validator;
 
-/*
- * @author frank
- * @created 16 Dec,2020 - 2:26 AM
- */
-
 import com.rentpal.agreement.common.Regex;
 import com.rentpal.agreement.common.Utils;
 import com.rentpal.agreement.model.Unit;
@@ -14,6 +9,11 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+/**
+ * @author frank
+ * @created 16 Dec,2020 - 2:26 AM
+ * Validates incoming unit object
+ */
 @Component
 public class UnitValidator implements Validator {
 

@@ -1,9 +1,6 @@
 package com.rentpal.agreement.validator;
 
-/*
- * @author frank
- * @created 16 Dec,2020 - 1:32 AM
- */
+
 
 import com.rentpal.agreement.common.Regex;
 import com.rentpal.agreement.common.Utils;
@@ -15,6 +12,11 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+/**
+ * @author frank
+ * @created 16 Dec,2020 - 1:32 AM
+ * Validates incoming property object
+ */
 @Component
 public class PropertyValidator implements Validator {
 
