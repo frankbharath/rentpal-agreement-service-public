@@ -34,8 +34,8 @@ Now can we do this in a better way? I think we can and use the concept of electr
 Property Object
 <p>{<br>"id":1,<br>"propertyName":"Maison", <br> "addressLine1":"10B", <br>"addressLine2":"Place Des Martrys",<br> "city":"Choisy", <br>"postal":"94400"<br>}</p>
 
-Unit Object
-<p>{<br/>"id":2,<br/>"area":12.11,<br/> "bathrooms":12124545.12,<br/> "bedrooms":5,<br/> "cautionDeposit": 450,<br/> "doorNumber":"10A",<br/> "floorNumber":2,<br/> "furnished":true,<br/> "rent": 400<br/>}</p>
+Unit Object<br/>
+```{"area":12.11, "bathrooms":1, "bedrooms":5, "cautionDeposit": 450, "doorNumber":"10A", "floorNumber":2, "furnished":true, "rent": 400}```
 
 ## Tools and Technologies
 - Spring boot - To build restful service.
