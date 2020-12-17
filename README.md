@@ -10,3 +10,5 @@ But fortunately, now everything has moved online, all I had to do is create an o
 Even though there is technology advancement in a lot of areas, there are few areas where we could do better with existing technologies. One of the areas is sharing of rental agreement and rent receipts.
 
 ## Problems and proposed solution
+When I came to Paris, I got an accommodation and the owner gave me 4 sheets of rental agreement. I was with 2 other roommates and they also got the same. The question we asked to ourselves was the point of getting a rental agreement that is bound to expire within 1 year. During the year of 2018-2019, there were around [358,000 internation students](#campusfrance) that came to paris. 
+<a src="https://ressources.campusfrance.org/publications/chiffres_cles/en/chiffres_cles_2020_en.pdf" name="campusfrance"></a>
