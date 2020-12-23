@@ -5,6 +5,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -97,4 +98,50 @@ public class Utils {
         return message;
     }
 
+    /**
+     * Parses the date to milliseconds.
+     *
+     * @param date the date
+     * @return the long
+     * @throws ParseException the parse exception
+     */
+    public static Long parseDateToMilliseconds(String date) throws ParseException{
+        return parseDateToMilliseconds(date, "MMM d, yyyy");
+    }
+
+    /**
+     * Parses the date to milliseconds.
+     *
+     * @param dateStr the date str
+     * @param format the format
+     * @return the long
+     * @throws ParseException the parse exception
+     */
+    public static Long parseDateToMilliseconds(String dateStr, String format) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        sdf.setLenient(false);
+        Date date = sdf.parse(dateStr);
+        return date.getTime();
+    }
+
+    /**
+     * Calculates difference between give milliseconds.
+     *
+     * @param startMilliseconds the start milliseconds
+     * @param endMilliseconds the end milliseconds
+     * @return the int
+     */
+    public static int diffDays(Long startMilliseconds, Long endMilliseconds) {
+        return (int) ((endMilliseconds-startMilliseconds) / (1000*60*60*24));
+    }
+
+    /**
+     * Convert days to milliseconds.
+     *
+     * @param days the days
+     * @return the long
+     */
+    public static long convertDaysToMilliseconds(int days) {
+        return days*86400000l;
+    }
 }

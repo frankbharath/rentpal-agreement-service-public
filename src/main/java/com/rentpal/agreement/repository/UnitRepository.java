@@ -16,6 +16,8 @@ import java.util.Optional;
 public interface UnitRepository extends CrudRepository<Unit, Long> {
     boolean existsByDoorNumberAndFloorNumberAndProperty(String doorNo, Integer floorNo, Property property);
 
+    boolean existsByIdAndProperty(Long id, Property property);
+
     boolean existsByDoorNumberAndFloorNumberAndPropertyAndIdNot(String doorNo, Integer floorNo, Property property, Long id);
 
     List<Unit> getByProperty(Property property);

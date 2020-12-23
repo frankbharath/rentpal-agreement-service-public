@@ -1,5 +1,7 @@
 package com.rentpal.agreement.model;
 
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -11,6 +13,7 @@ import java.util.List;
  */
 
 @Entity
+//@ToString
 public class Property {
 
 	@Id

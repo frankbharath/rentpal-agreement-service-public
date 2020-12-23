@@ -1,5 +1,7 @@
 package com.rentpal.agreement.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import java.util.List;
 
 @Entity(name = "users")
 @Table(name = "users")
+@Data
 public class User {
 
 	@Id

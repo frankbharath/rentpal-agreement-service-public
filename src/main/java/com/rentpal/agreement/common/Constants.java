@@ -16,4 +16,11 @@ public class Constants {
 	/** The Constant FAILED. */
 	public static final String FAILED="failed ";
 
+	public static final int MINDAYS=28;
+
+	public static final String DEAD_LETTER_EXCHANGE="dlx";
+
+	public static final String DEAD_LETTER_ROUTING_KEY="dlrk";
+
+	public static final String DEAD_LETTER_QUEUE_NAME="dlq";
 }

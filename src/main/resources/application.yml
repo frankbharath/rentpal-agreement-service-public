@@ -9,6 +9,48 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+  security:
+    oauth2:
+      clientId : 1000.7QO888PL2DNBUTWTF4ZYBTFYCP8WTT
+      clientSecret : 9fb7ef11fc906f9c70fe20fb2bfabc3802beed3d09
+      refreshToken : 1000.9c66eedccb90f3144c7a310cc2ca0170.5dbf0228df8886f1771744e0dc81a615
+  mail:
+    port: 587
+    host: smtp.zoho.eu
+    username: rentpal@zohomail.eu
+    password: Bharath11
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    protocol: smtp
+  rabbitmq:
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 2000
+          max-attempts: 2
+          multiplier: 1.5
+          max-interval: 5000
+
+
+
+app:
+  settings:
+    rabbitmq:
+      queue: notification_queue
+      exchange: notification_exchange
+      routingKey: notification
 
 server:
   port: 8082
+
+zoho:
+  accounts:
+    oauth: https://accounts.zoho.eu/oauth/v2/token
+  sign:
+    requests: https://sign.zoho.eu/api/v1/requests
+    template: https://sign.zoho.eu/api/v1/templates/16312000000011003/createdocument

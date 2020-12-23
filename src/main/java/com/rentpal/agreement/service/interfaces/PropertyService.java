@@ -5,10 +5,8 @@ package com.rentpal.agreement.service.interfaces;
  * @created 15 Dec,2020 - 1:49 AM
  */
 
-import com.rentpal.agreement.dto.PropertyDTO;
-import com.rentpal.agreement.dto.UnitDTO;
+import com.rentpal.agreement.dto.TenantDTO;
 import com.rentpal.agreement.model.Property;
-import com.rentpal.agreement.model.Unit;
 
 import java.util.List;
 
@@ -22,7 +20,7 @@ public interface PropertyService {
      * @param id the id
      * @return the property
      */
-    PropertyDTO getProperty(Long id);
+    Property getProperty(Long id);
 
     /**
      * Gets all the properties or for given query.
@@ -30,7 +28,7 @@ public interface PropertyService {
      * @param searchQuery the search query
      * @return the properties
      */
-    List<PropertyDTO> getProperties(String searchQuery);
+    List<Property> getProperties(String searchQuery);
 
     /**
      * Adds property to the database and return DTO.
@@ -38,7 +36,7 @@ public interface PropertyService {
      * @param property the property
      * @return the property dto
      */
-    PropertyDTO addProperty(Property property);
+    Property addProperty(Property property);
 
     /**
      * Updates property to the database and return DTO.
@@ -46,7 +44,7 @@ public interface PropertyService {
      * @param property the property
      * @return the property dto
      */
-    PropertyDTO updateProperty(Property property);
+    Property updateProperty(Property property);
 
     /**
      * Deletes property from the database for given id.
@@ -55,46 +53,5 @@ public interface PropertyService {
      */
     void deleteProperty(Long id);
 
-    /**
-     * Adds a unit to the given property and return DTO.
-     *
-     * @param propertyId the property id
-     * @param unit       the unit
-     * @return the unit dto
-     */
-    UnitDTO addUnitToProperty(Long propertyId, Unit unit);
-
-    /**
-     * Updates a unit to the given property and return DTO.
-     *
-     * @param propertyId the property id
-     * @param unit       the unit
-     * @return the unit dto
-     */
-    UnitDTO updateUnitToProperty(Long propertyId, Unit unit);
-
-    /**
-     * Gets units for given property.
-     *
-     * @param propertyId the property id
-     * @return the units for property
-     */
-    List<UnitDTO> getUnitsForProperty(Long propertyId);
-
-    /**
-     * Gets a unit for given property.
-     *
-     * @param propertyId the property id
-     * @param unitId     the unit id
-     * @return the unit for property
-     */
-    UnitDTO getUnitForProperty(Long propertyId, Long unitId);
-
-    /**
-     * Deletes a unit for property.
-     *
-     * @param propertyId the property id
-     * @param unitId     the unit id
-     */
-    void deleteUnitForProperty(Long propertyId, Long unitId);
+    boolean propertyExistsForUser(Long propertyId);
 }

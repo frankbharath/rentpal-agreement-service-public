@@ -1,6 +1,7 @@
 package com.rentpal.agreement.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Domain model for unit.
@@ -43,6 +44,9 @@ public class Unit {
 
     @Column(nullable = false)
     private Integer floorNumber;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="unit", cascade = CascadeType.REMOVE)
+    private List<Tenant> tenants;
 
     public Long getId() {
         return id;

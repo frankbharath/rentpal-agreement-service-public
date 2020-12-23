@@ -18,6 +18,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.powermock.api.mockito.PowerMockito.*;
+
 public class PropertyControllerTest extends AbstractControllerTest {
 
     @Autowired
@@ -29,9 +32,6 @@ public class PropertyControllerTest extends AbstractControllerTest {
     @Autowired
     PropertyValidator propertyValidator;
 
-    @Autowired
-    UnitValidator unitValidator;
-
     @Test
     public void testGetProperties() throws Exception {
         MvcResult result=mvc.perform(MockMvcRequestBuilders.get("/properties")).andReturn();
@@ -40,6 +40,11 @@ public class PropertyControllerTest extends AbstractControllerTest {
 
     @Test
     public void testGetProperty() throws Exception {
+        Property property=new Property();
+        User user=new User();
+        property.setUser(user);
+        property.setCreationTime(System.currentTimeMillis());
+        when(propertyService.getProperty(1l)).thenReturn(property);
         MvcResult result=mvc.perform(MockMvcRequestBuilders.get("/properties/1")).andReturn();
         Assertions.assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
     }
@@ -47,6 +52,8 @@ public class PropertyControllerTest extends AbstractControllerTest {
     @Test
     public void testAddProperty() throws Exception {
         Property property=new Property();
+        User user=new User();
+        property.setUser(user);
         MvcResult result=mvc.perform(MockMvcRequestBuilders.post("/properties")
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(property)))
                 .andReturn();
@@ -67,6 +74,8 @@ public class PropertyControllerTest extends AbstractControllerTest {
         property.setAddressLine2("Place Des");
         property.setCity("Ivry");
         property.setPostal("94400");
+        property.setCreationTime(System.currentTimeMillis());
+        when(propertyService.addProperty(any(Property.class))).thenReturn(property);
         result=mvc.perform(MockMvcRequestBuilders.post("/properties")
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(property)))
                 .andReturn();
@@ -76,6 +85,8 @@ public class PropertyControllerTest extends AbstractControllerTest {
     @Test
     public void testUpdateProperty() throws Exception {
         Property property=new Property();
+        User user=new User();
+        property.setUser(user);
         String uri="/properties/1";
         MvcResult result=mvc.perform(MockMvcRequestBuilders.put(uri)
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(property)))
@@ -97,6 +108,8 @@ public class PropertyControllerTest extends AbstractControllerTest {
         property.setAddressLine2("Place Des");
         property.setCity("Ivry");
         property.setPostal("94400");
+        property.setCreationTime(System.currentTimeMillis());
+        when(propertyService.updateProperty(any(Property.class))).thenReturn(property);
         result=mvc.perform(MockMvcRequestBuilders.put(uri)
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(property)))
                 .andReturn();
@@ -106,69 +119,6 @@ public class PropertyControllerTest extends AbstractControllerTest {
     @Test
     public void testDeleteProperty() throws Exception {
         MvcResult result=mvc.perform(MockMvcRequestBuilders.delete("/properties/1"))
-                .andReturn();
-        Assertions.assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus());
-    }
-
-    @Test
-    public void testGetUnitsForProperty() throws Exception {
-        MvcResult result=mvc.perform(MockMvcRequestBuilders.get("/properties/1/units")).andReturn();
-        Assertions.assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
-    }
-
-    @Test
-    public void testGetUnitForProperty() throws Exception {
-        MvcResult result=mvc.perform(MockMvcRequestBuilders.get("/properties/1/units/2")).andReturn();
-        Assertions.assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
-    }
-
-    @Test
-    public void testAddUnitToProperty() throws Exception {
-        Unit unit=new Unit();
-        MvcResult result=mvc.perform(MockMvcRequestBuilders.post("/properties/1/units")
-                .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(unit)))
-                .andReturn();
-        Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), result.getResponse().getStatus());
-
-        unit.setArea(111.11f);
-        unit.setBathrooms(11111);
-        unit.setBedrooms(111111);
-        unit.setCautionDeposit(4343.34f);
-        unit.setRent(34343.34f);
-        unit.setFurnished(false);
-        unit.setDoorNumber("34");
-        unit.setFloorNumber(1111);
-        result=mvc.perform(MockMvcRequestBuilders.post("/properties/1/units")
-                .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(unit)))
-                .andReturn();
-        Assertions.assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
-    }
-
-    @Test
-    public void testUpdateUnitToProperty() throws Exception {
-        Unit unit=new Unit();
-        MvcResult result=mvc.perform(MockMvcRequestBuilders.put("/properties/1/units/2")
-                .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(unit)))
-                .andReturn();
-        Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), result.getResponse().getStatus());
-
-        unit.setArea(111.11f);
-        unit.setBathrooms(11111);
-        unit.setBedrooms(111111);
-        unit.setCautionDeposit(4343.34f);
-        unit.setRent(34343.34f);
-        unit.setFurnished(false);
-        unit.setDoorNumber("34");
-        unit.setFloorNumber(1111);
-        result=mvc.perform(MockMvcRequestBuilders.put("/properties/1/units/2")
-                .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(unit)))
-                .andReturn();
-        Assertions.assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
-    }
-
-    @Test
-    public void testDeleteUnitForProperty() throws Exception {
-        MvcResult result=mvc.perform(MockMvcRequestBuilders.delete("/properties/1/units/2"))
                 .andReturn();
         Assertions.assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus());
     }

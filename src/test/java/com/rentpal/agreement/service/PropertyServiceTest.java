@@ -1,19 +1,11 @@
 package com.rentpal.agreement.service;
 
-/*
- * @author frank
- * @created 16 Dec,2020 - 3:41 AM
- */
-
-
 import com.rentpal.agreement.AbstractTest;
 import com.rentpal.agreement.common.DTOModelMapper;
 import com.rentpal.agreement.common.Utils;
 import com.rentpal.agreement.dto.PropertyDTO;
-import com.rentpal.agreement.dto.UnitDTO;
 import com.rentpal.agreement.exception.APIRequestException;
 import com.rentpal.agreement.model.Property;
-import com.rentpal.agreement.model.Unit;
 import com.rentpal.agreement.model.User;
 import com.rentpal.agreement.repository.PropertyRepository;
 import com.rentpal.agreement.repository.UnitRepository;
@@ -31,6 +23,11 @@ import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.powermock.api.mockito.PowerMockito.*;
 
+/**
+ * @author frank
+ * @created 16 Dec,2020 - 3:41 AM
+ */
+
 @PrepareForTest({PropertyServiceImpl.class})
 public class PropertyServiceTest extends AbstractTest {
 
@@ -44,9 +41,6 @@ public class PropertyServiceTest extends AbstractTest {
 
     @Mock
     MessageSource messageSource;
-
-    @Mock
-    UnitRepository unitRepository;
 
     @Test(expected = APIRequestException.class)
     public void testGetPropertyIfNotExist() throws Exception {
@@ -100,7 +94,6 @@ public class PropertyServiceTest extends AbstractTest {
         });
         when(propertyRepository.existsByPropertyNameAndUser(property.getPropertyName(), user)).thenReturn(false);
         when(propertyRepository.save(property)).thenReturn(property);
-        when(DTOModelMapper.propertyModelDTOMapper(property)).thenReturn(propertyDTO);
         assertNotNull(propertyService.addProperty(property));
     }
 
@@ -108,12 +101,10 @@ public class PropertyServiceTest extends AbstractTest {
     public void testUpdateProperty() throws Exception {
         User user=mock(User.class);
         Property property=mock(Property.class);
-        PropertyDTO propertyDTO=mock(PropertyDTO.class);
-
         whenNew(User.class).withNoArguments().thenReturn(user);
 
         //to check if property does not exist
-        when(propertyService, "propertyExistsForUser", property).thenReturn(false);
+        when(propertyService.propertyExistsForUser(1l)).thenReturn(false);
         Exception exception=assertThrows(APIRequestException.class, ()->{
             String no_property="error.property.not_exists";
             when(Utils.getMessage(messageSource, no_property)).thenReturn(no_property);
@@ -121,7 +112,8 @@ public class PropertyServiceTest extends AbstractTest {
         });
         assertEquals("error.property.not_exists", exception.getMessage());
 
-        when(propertyService, "propertyExistsForUser", property).thenReturn(true);
+        when(property.getId()).thenReturn(1l);
+        when(propertyService.propertyExistsForUser(1l)).thenReturn(true);
         when(propertyRepository.existsByPropertyNameAndIdNotAndUser(property.getPropertyName(), property.getId(), user)).thenReturn(true);
         exception=assertThrows(APIRequestException.class, ()->{
             String no_property="error.property.duplicate_name";
@@ -130,15 +122,15 @@ public class PropertyServiceTest extends AbstractTest {
         });
         assertEquals("error.property.duplicate_name", exception.getMessage());
 
-        when(propertyService, "propertyExistsForUser", property).thenReturn(true);
+        when(propertyService.propertyExistsForUser(1l)).thenReturn(true);
         when(propertyRepository.existsByPropertyNameAndIdNotAndUser(property.getPropertyName(), property.getId(), user)).thenReturn(false);
 
         when(propertyRepository.findByIdAndUser(property.getId(), user)).thenReturn(Optional.of(property));
-        when(DTOModelMapper.propertyModelDTOMapper(property)).thenReturn(propertyDTO);
+        when(propertyRepository.save(property)).thenReturn(property);
         assertNotNull(propertyService.updateProperty(property));
     }
 
-    @Test
+    /*@Test
     public void testAddUnitToProperty() throws Exception {
         User user=mock(User.class);
         Property property=mock(Property.class);
@@ -256,5 +248,5 @@ public class PropertyServiceTest extends AbstractTest {
         when(propertyService, "propertyExistsForUser", property).thenReturn(true);
         when(DTOModelMapper.unitModelDTOMapper(unit)).thenReturn(mock(UnitDTO.class));
         assertNotNull(propertyService.getUnitForProperty(property.getId(), unit.getId()));
-    }
+    }*/
 }
