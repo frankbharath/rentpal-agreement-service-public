@@ -1,4 +1,6 @@
-package com.rentpal.agreement.service.interfaces;/*
+package com.rentpal.agreement.service.interfaces;
+
+/**
  * @author frank
  * @created 14 Dec,2020 - 11:59 PM
  */
@@ -6,7 +8,13 @@ package com.rentpal.agreement.service.interfaces;/*
 import com.rentpal.agreement.model.User;
 
 public interface AccountService {
-    void addUser(User user);
+    User addUser(User user);
 
     boolean userExist(String email);
+
+    Long getUserId(String email);
+
+    void addUser(String email);
+
+    User getUser();
 }

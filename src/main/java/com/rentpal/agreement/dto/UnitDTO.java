@@ -31,6 +31,8 @@ public class UnitDTO {
 
     private Integer floorNumber;
 
+    private PropertyDTO propertyDTO;
+
     public Long getId() {
         return id;
     }
@@ -110,4 +112,8 @@ public class UnitDTO {
     public void setFloorNumber(Integer floorNumber) {
         this.floorNumber = floorNumber;
     }
+
+    public PropertyDTO getPropertyDTO() { return propertyDTO; }
+
+    public void setPropertyDTO(PropertyDTO propertyDTO) { this.propertyDTO = propertyDTO; }
 }

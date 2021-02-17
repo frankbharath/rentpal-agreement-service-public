@@ -19,6 +19,8 @@ public interface UnitService {
      */
     Unit addUnitToProperty(Long propertyId, Unit unit);
 
+    Integer getUnitCount(Long propertyId);
+
     /**
      * Updates a unit to the given property and return DTO.
      *
@@ -34,7 +36,7 @@ public interface UnitService {
      * @param propertyId the property id
      * @return the units for property
      */
-    List<Unit> getUnitsForProperty(Long propertyId);
+    List<Unit> getUnitsForProperty(Long propertyId, Integer pageIndex, Integer pageSize);
 
     /**
      * Gets a unit for given property.
@@ -54,4 +56,6 @@ public interface UnitService {
      * @param unitId     the unit id
      */
     void deleteUnitForProperty(Long propertyId, Long unitId);
+
+    void deleteUnitsForProperty(Long propertyId, List<Long> unitIds);
 }

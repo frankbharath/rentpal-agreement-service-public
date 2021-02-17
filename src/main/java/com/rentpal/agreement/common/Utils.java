@@ -45,6 +45,11 @@ public class Utils {
         return simpleDateFormat.format(new Date(milliseconds));
     }
 
+    public static String getDate(Date date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d, yyyy", Locale.ENGLISH);
+        return simpleDateFormat.format(date);
+    }
+
     /**
      * Gets the user id.
      *
@@ -118,10 +123,18 @@ public class Utils {
      * @throws ParseException the parse exception
      */
     public static Long parseDateToMilliseconds(String dateStr, String format) throws ParseException {
+        return parseDate(dateStr, format).getTime();
+    }
+
+    public static Date parseDate(String dateStr) throws ParseException {
+        return parseDate(dateStr, "MMM d, yyyy");
+    }
+
+    public static Date parseDate(String dateStr, String format) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         sdf.setLenient(false);
         Date date = sdf.parse(dateStr);
-        return date.getTime();
+        return date;
     }
 
     /**

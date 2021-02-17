@@ -19,13 +19,19 @@ public class TenantDTO {
 
     private String nationality;
 
+    private String nationalityLabel;
+
     private Long unitId;
+
+    private Long propertyId;
 
     private String movein;
 
     private String moveout;
 
     private Integer occupants;
+
+    private UnitDTO unitDTO;
 
     public Long getId() {
         return id;
@@ -75,6 +81,10 @@ public class TenantDTO {
         this.nationality = nationality;
     }
 
+    public String getNationalityLabel() { return nationalityLabel; }
+
+    public void setNationalityLabel(String nationality_label) { this.nationalityLabel = nationality_label; }
+
     public Long getUnitId() {
         return unitId;
     }
@@ -82,6 +92,10 @@ public class TenantDTO {
     public void setUnitId(Long unitId) {
         this.unitId = unitId;
     }
+
+    public Long getPropertyId() { return propertyId; }
+
+    public void setPropertyId(Long propertyId) { this.propertyId = propertyId; }
 
     public String getMovein() {
         return movein;
@@ -106,4 +120,9 @@ public class TenantDTO {
     public void setOccupants(Integer occupants) {
         this.occupants = occupants;
     }
+
+    public UnitDTO getUnitDTO() { return unitDTO; }
+
+    public void setUnitDTO(UnitDTO unitDTO) { this.unitDTO = unitDTO; }
+
 }

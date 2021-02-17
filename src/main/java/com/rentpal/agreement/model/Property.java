@@ -13,7 +13,6 @@ import java.util.List;
  */
 
 @Entity
-//@ToString
 public class Property {
 
 	@Id

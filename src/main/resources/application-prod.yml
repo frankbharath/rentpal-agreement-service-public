@@ -1,0 +1,33 @@
+spring:
+  profiles:
+    active: prod
+  datasource:
+    url: jdbc:postgresql://aa1akxnwq1xoko9.cagdd5h3qkzj.us-east-2.rds.amazonaws.com/postgres
+    username: postgres
+    password: Bharath11
+    driver-class-name: org.postgresql.Driver
+    initialization-mode: always
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 1000
+        order_inserts: true
+  security:
+    oauth2:
+      clientId : 1000.7QO888PL2DNBUTWTF4ZYBTFYCP8WTT
+      clientSecret : 9fb7ef11fc906f9c70fe20fb2bfabc3802beed3d09
+      refreshToken : 1000.9c66eedccb90f3144c7a310cc2ca0170.5dbf0228df8886f1771744e0dc81a615
+      client:
+        registration:
+          facebook:
+            client-id: 3595831953830598
+            client-secret: 1677bd5512e65068e789f5545aca8179
+          google:
+            client-id: 808574382755-mncrrbn87qa7sqvrd1smuqd062u4796a.apps.googleusercontent.com
+            client-secret: beKWHyaEOtOIHfBXi5ip2i1V
+
+angular: https://www.rentpal.ml

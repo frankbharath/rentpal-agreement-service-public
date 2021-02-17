@@ -18,6 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -50,7 +52,6 @@ public class PropertyServiceImpl implements PropertyService {
      * Instantiates a new Property service.
      *
      * @param propertyRepository the property repository
-     * @param unitService     the unit service
      * @param messageSource      the message source
      */
     public PropertyServiceImpl(PropertyRepository propertyRepository, MessageSource messageSource){
@@ -84,21 +85,31 @@ public class PropertyServiceImpl implements PropertyService {
      * @return the properties
      */
     @Override
-    public List<Property> getProperties(String searchQuery){
+    public List<Property> getProperties(String searchQuery, Integer page, Integer size){
         User user=new User();
         user.setId(Utils.getUserId());
         List<Property> properties;
         // retrieves properties from the database based on search condition
         // using FTS with GIN indexing to speed up the query
-        if(searchQuery!=null){
-            properties=propertyRepository.findByUserAndTSV(Utils.getUserId(), String.join("|", searchQuery.split("\\s+")));
+        Pageable paging = PageRequest.of(page, size==null?Integer.MAX_VALUE:size);
+        if(searchQuery!=null && searchQuery.trim().length()>0){
+            properties=propertyRepository.findByUserAndTSV(Utils.getUserId(), String.join("|", searchQuery.split("\\s+")), paging);
         }else{
-            properties=propertyRepository.findByUser(user);
+            properties=propertyRepository.findByUser(user, paging);
         }
         log.info("Properties retrieved successfully");
         return properties;
     }
 
+    @Override
+    public Long getPropertiesCount(String searchQuery){
+        User user=new User();
+        user.setId(Utils.getUserId());
+        if(searchQuery!=null && searchQuery.trim().length()>0){
+            return propertyRepository.countByUserAndTSV(user.getId(), String.join("|", searchQuery.split("\\s+")));
+        }
+        return propertyRepository.countByUser(user);
+    }
     /**
      * Adds property to the database and return DTO.
      *
@@ -115,6 +126,17 @@ public class PropertyServiceImpl implements PropertyService {
         }
         property.setUser(user);
         property.setCreationTime(System.currentTimeMillis());
+        /*for(int i=0;i<110;i++){
+            Property property1=new Property();
+            property1.setPropertyName(property.getPropertyName()+"_"+i);
+            property1.setCity(property.getCity());
+            property1.setAddressLine1(property.getAddressLine1());
+            property1.setAddressLine2(property.getAddressLine2());
+            property1.setPostal(property.getPostal());
+            property1.setUser(user);
+            property1.setCreationTime(System.currentTimeMillis());
+            propertyRepository.save(property1);
+        }*/
         log.info("Adding property for user {}", Utils.getUserId());
         return propertyRepository.save(property);
     }
@@ -157,6 +179,19 @@ public class PropertyServiceImpl implements PropertyService {
         user.setId(Utils.getUserId());
         propertyRepository.deleteByIdAndUser(id, user);
         log.info("Deleted property {} for user {}", id, Utils.getUserId());
+    }
+
+    @Override
+    public void deleteProperties(List<Long> propertyIds){
+        if(propertyIds.isEmpty()){
+            return;
+        }
+        User user=new User();
+        user.setId(Utils.getUserId());
+        List<Property> properties=propertyRepository.findByIdInAndUser(propertyIds,user);
+        if(!properties.isEmpty()) {
+            propertyRepository.deleteAll(properties);
+        }
     }
 
     @Override

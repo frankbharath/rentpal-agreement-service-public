@@ -128,4 +128,20 @@ public class Unit {
         this.floorNumber = floorNumber;
     }
 
+    @Override
+    public String toString() {
+        return "Unit{" +
+                "id=" + id +
+                //", property=" + property +
+                ", bedrooms=" + bedrooms +
+                ", bathrooms=" + bathrooms +
+                ", area=" + area +
+                ", rent=" + rent +
+                ", cautionDeposit=" + cautionDeposit +
+                ", furnished=" + furnished +
+                ", doorNumber='" + doorNumber + '\'' +
+                ", floorNumber=" + floorNumber +
+                //", tenants=" + tenants +
+                '}';
+    }
 }

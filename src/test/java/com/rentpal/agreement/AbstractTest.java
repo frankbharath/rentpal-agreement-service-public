@@ -31,6 +31,7 @@ public abstract class AbstractTest {
 	public void setUp() {
 		PowerMockito.mockStatic(Utils.class);
 		PowerMockito.when(Utils.getUserId()).thenReturn(1l);
+		PowerMockito.when(Utils.getUserEmail()).thenReturn("test@gmail.com");
 		PowerMockito.mockStatic(DTOModelMapper.class);
 	}
 }

@@ -1,0 +1,28 @@
+{
+  "properties": [
+    {"propertyName": "Cite universite", "addressLine1": "Rue de la Comète", "postal": "75007", "city": "Paris"},
+    {"propertyName": "Sergic Residence", "addressLine1": "10 Mai 1947", "addressLine2": "Place des Martyrs de la Deportation", "postal": "93000", "city": "Ivry Sur Seine"},
+    {"propertyName": "Les enfants du Paradis", "addressLine1": "14 chemin Marcreux", "postal": "93300 ", "city": "Aubervilliers"},
+    {"propertyName": "Sequana", "addressLine1": "23 rue Marcel Bontemps", "postal": "92100", "city": "Boulogne-Billancourt"},
+    {"propertyName": "Modigliani", "addressLine1": "17-29 rue des Etudiants", "postal": "92400  ", "city": "Courbevoie"}
+  ],
+  "units": [
+    {"bedrooms": 2, "bathrooms": 1, "area": 20.20, "rent": 500, "cautionDeposit": 350, "furnished": "true", "doorNumber": "1A", "floorNumber": 1},
+    {"bedrooms": 2, "bathrooms": 1, "area": 25, "rent": 450, "cautionDeposit": 350, "furnished": "true", "doorNumber": "2A", "floorNumber": 2},
+    {"bedrooms": 1, "bathrooms": 1, "area": 10, "rent": 300, "cautionDeposit": 150, "furnished": "false", "doorNumber": "3A", "floorNumber": 3},
+    {"bedrooms": 2, "bathrooms": 1, "area": 56, "rent": 450, "cautionDeposit": 350, "furnished": "true", "doorNumber": "4A", "floorNumber": 4},
+    {"bedrooms": 1, "bathrooms": 1, "area": 33, "rent": 300, "cautionDeposit": 150, "furnished": "false", "doorNumber": "5A", "floorNumber": 5}
+  ],
+  "tenants": [
+    {"firstName": "Marty", "lastName": "Opthoff", "email": "marty@test.com", "dob": "Nov 11, 1992", "nationality": "BTN", "movein": "Oct 05, 2020", "moveout": "Oct 05, 2021", "occupants": 1},
+    {"firstName": "Claire", "lastName": "Lavenne", "email": "claire@test.com", "dob": "Jan 05, 1990", "nationality": "CAN", "movein": "May 15, 2020", "moveout": "May 05, 2021", "occupants": 2},
+    {"firstName": "Alex", "lastName": "Rodriguez", "email": "alexis@test.com", "dob": "May 20, 1985", "nationality": "BRA", "movein": "Jun 20, 2020", "moveout": "Jun 20, 2021", "occupants": 3},
+    {"firstName": "Mixtur", "lastName": "Vinanney", "email": "mixtur@test.com", "dob": "Jan 05, 1990", "nationality": "FRA", "movein": "Jan 15, 2020", "moveout": "Jan 15, 2021", "occupants": 2},
+    {"firstName": "Ricky", "lastName": "Pointing", "email": "ricky@test.com", "dob": "Apr 30, 1987", "nationality": "AUS", "movein": "Feb 03, 2020", "moveout": "Apr 03, 2021", "occupants": 3},
+    {"firstName": "Sam", "lastName": "Curran", "email": "sam@test.com", "dob": "Feb 15, 1993", "nationality": "USA", "movein": "May 06, 2020", "moveout": "May 06, 2021", "occupants": 2},
+    {"firstName": "David", "lastName": "Warner", "email": "david@test.com", "dob": "Mar 28, 1983", "nationality": "IND", "movein": "Jun 09, 2020", "moveout": "Jun 09, 2021", "occupants": 3},
+    {"firstName": "Steven", "lastName": "Smith", "email": "steven@test.com", "dob": "Jul 18, 1988", "nationality": "AFG", "movein": "Jul 12, 2020", "moveout": "Jul 12, 2021", "occupants": 2},
+    {"firstName": "Mitchell", "lastName": "Starc", "email": "mitchell@test.com", "dob": "Aug 24, 1998", "nationality": "BRA", "movein": "Aug 15, 2020", "moveout": "Aug 15, 2021", "occupants": 3},
+    {"firstName": "Ben", "lastName": "Stokes", "email": "carrey@test.com", "dob": "Sept 09, 1990", "nationality": "CAN", "movein": "Sep 18, 2020", "moveout": "Sep 18, 2021", "occupants": 2}
+  ]
+}

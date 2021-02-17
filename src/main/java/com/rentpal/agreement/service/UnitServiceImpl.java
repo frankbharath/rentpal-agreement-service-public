@@ -9,6 +9,8 @@ import com.rentpal.agreement.service.interfaces.PropertyService;
 import com.rentpal.agreement.service.interfaces.UnitService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -62,8 +64,29 @@ public class UnitServiceImpl implements UnitService {
         if(unitRepository.existsByDoorNumberAndFloorNumberAndProperty(unit.getDoorNumber(), unit.getFloorNumber(), property)){
             throw new APIRequestException(Utils.getMessage(messageSource,"error.unit.exists"));
         }
+        /*for(int i=0;i<100;i++){
+            Unit unit1=new Unit();
+            unit1.setProperty(property);
+            unit1.setFloorNumber(i);
+            unit1.setDoorNumber(String.valueOf(i));
+            unit1.setFurnished(true);
+            unit1.setRent(300f);
+            unit1.setCautionDeposit(400f);
+            unit1.setBedrooms(1);
+            unit1.setArea(11f);
+            unit1.setBathrooms(2);
+            unitRepository.save(unit1);
+        }*/
+
         log.info("Adding unit for the property {} and for the user {}", propertyId, Utils.getUserId());
         return unitRepository.save(unit);
+    }
+
+    @Override
+    public Integer getUnitCount(Long propertyId){
+        Property property=new Property();
+        property.setId(propertyId);
+        return  unitRepository.countByProperty(property);
     }
 
     /**
@@ -98,13 +121,14 @@ public class UnitServiceImpl implements UnitService {
      * @return the units for property
      */
     @Override
-    public List<Unit> getUnitsForProperty(Long propertyId){
+    public List<Unit> getUnitsForProperty(Long propertyId, Integer page, Integer size){
         Property property=new Property();
         property.setId(propertyId);
         if(!propertyService.propertyExistsForUser(propertyId)){
             throw new APIRequestException(Utils.getMessage(messageSource,"error.property.not_exists"));
         }
-        List<Unit> units = unitRepository.getByProperty(property);
+        Pageable paging = PageRequest.of(page, size==null?Integer.MAX_VALUE:size);
+        List<Unit> units = unitRepository.getByProperty(property, paging);
         log.info("Units successfully retrieved for property {}", propertyId);
         return units;
     }
@@ -154,5 +178,18 @@ public class UnitServiceImpl implements UnitService {
         }
         log.info("Deleting the unit {} for the property {}", propertyId, unitId);
         unitRepository.deleteByIdAndProperty(unitId, property);
+    }
+
+    @Override
+    public void deleteUnitsForProperty(Long propertyId, List<Long> unitIds){
+        if(!unitIds.isEmpty()) {
+            if(!propertyService.propertyExistsForUser(propertyId)){
+                throw new APIRequestException(Utils.getMessage(messageSource,"error.property.not_exists"));
+            }
+            Property property = new Property();
+            property.setId(propertyId);
+            List<Unit> units = unitRepository.findByIdInAndProperty(unitIds, property);
+            unitRepository.deleteAll(units);
+        }
     }
 }

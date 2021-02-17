@@ -28,7 +28,9 @@ public interface PropertyService {
      * @param searchQuery the search query
      * @return the properties
      */
-    List<Property> getProperties(String searchQuery);
+    List<Property> getProperties(String searchQuery, Integer page, Integer size);
+
+    Long getPropertiesCount(String searchQuery);
 
     /**
      * Adds property to the database and return DTO.
@@ -52,6 +54,8 @@ public interface PropertyService {
      * @param id the id
      */
     void deleteProperty(Long id);
+
+    void deleteProperties(List<Long> propertyIds);
 
     boolean propertyExistsForUser(Long propertyId);
 }

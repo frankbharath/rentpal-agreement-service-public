@@ -14,14 +14,17 @@ import java.util.List;
 
 @Entity(name = "users")
 @Table(name = "users")
-@Data
 public class User {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 
 	@Column(length = 256, nullable = false)
 	private String email;
+
+	@Column(nullable = false)
+	private Long creationTime;
 
 	public Long getId() { return id; }
 
@@ -35,6 +38,13 @@ public class User {
 		this.email = email;
 	}
 
+	public Long getCreationTime() { return creationTime; }
+
+	public void setCreationTime(Long creationTime) { this.creationTime = creationTime; }
+
 	@OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST)
 	private List<Property> properties;
+
+	@OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST)
+	private List<Tenant> tenants;
 }

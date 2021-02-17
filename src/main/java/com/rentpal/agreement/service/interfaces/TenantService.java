@@ -6,7 +6,19 @@ package com.rentpal.agreement.service.interfaces;
  */
 
 import com.rentpal.agreement.dto.TenantDTO;
+import com.rentpal.agreement.model.Tenant;
+import org.json.JSONObject;
+
+import java.util.List;
 
 public interface TenantService {
-    TenantDTO addTenant(Long propertyId, Long unitId, TenantDTO tenantDTO);
+    TenantDTO addTenant(TenantDTO tenantDTO);
+
+    void deleteTenant(Long tenantId);
+
+    List<Tenant> getAllTenants(Integer page, Integer size);
+
+    JSONObject getRentHistory();
+
+    Long getAllTenantsCount();
 }

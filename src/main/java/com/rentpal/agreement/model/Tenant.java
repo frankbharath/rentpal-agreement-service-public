@@ -1,14 +1,15 @@
 package com.rentpal.agreement.model;
 
-/*
+/**
  * @author frank
  * @created 19 Dec,2020 - 9:42 PM
  */
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Date;
 
 @Entity
+//@ToString
 public class Tenant {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -33,36 +34,32 @@ public class Tenant {
     @JoinColumn(name="unitId", referencedColumnName = "id", nullable = false)
     private Unit unit;
 
-    public Unit getUnit() {
-        return unit;
-    }
-
-    public void setUnit(Unit unit) {
-        this.unit = unit;
-    }
+    @Column(nullable = false)
+    private Date movein;
 
     @Column(nullable = false)
-    private Long movein;
-
-    @Column(nullable = false)
-    private Long moveout;
+    private Date moveout;
 
     @Column(nullable = false)
     private Integer occupants;
 
-    public Long getMovein() {
+    @ManyToOne
+    @JoinColumn(name="userId", referencedColumnName = "id", nullable = false)
+    private User user;
+
+    public Date getMovein() {
         return movein;
     }
 
-    public void setMovein(Long movein) {
+    public void setMovein(Date movein) {
         this.movein = movein;
     }
 
-    public Long getMoveout() {
+    public Date getMoveout() {
         return moveout;
     }
 
-    public void setMoveout(Long moveout) {
+    public void setMoveout(Date moveout) {
         this.moveout = moveout;
     }
 
@@ -114,6 +111,9 @@ public class Tenant {
         this.nationality = nationality;
     }
 
+    public Unit getUnit() { return unit; }
+
+    public void setUnit(Unit unit) { this.unit = unit; }
 
     public Integer getOccupants() {
         return occupants;
@@ -121,5 +121,13 @@ public class Tenant {
 
     public void setOccupants(Integer occupants) {
         this.occupants = occupants;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

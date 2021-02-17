@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,7 +123,7 @@ public class UnitServiceTest  extends AbstractTest {
         Exception exception=assertThrows(APIRequestException.class, ()->{
             String no_property="error.property.not_exists";
             when(Utils.getMessage(messageSource, no_property)).thenReturn(no_property);
-            unitService.getUnitsForProperty(1l);
+            unitService.getUnitsForProperty(1l, null, null);
         });
         assertEquals("error.property.not_exists", exception.getMessage());
 
@@ -130,9 +131,10 @@ public class UnitServiceTest  extends AbstractTest {
         List<Unit> units=new ArrayList<>();
         units.add(unit);
         units.add(unit);
-        when(unitRepository.getByProperty(property)).thenReturn(units);
+        Pageable pageable=mock(Pageable.class);
+        when(unitRepository.getByProperty(property, pageable)).thenReturn(units);
         when(propertyService.propertyExistsForUser(1l)).thenReturn(true);
-        assertEquals(2, unitService.getUnitsForProperty(1l).size());
+        assertEquals(2, unitService.getUnitsForProperty(1l, null, null).size());
     }
 
     @Test

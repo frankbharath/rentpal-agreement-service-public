@@ -9,14 +9,17 @@ package com.rentpal.agreement.common;
 import com.rentpal.agreement.dto.PropertyDTO;
 import com.rentpal.agreement.dto.TenantDTO;
 import com.rentpal.agreement.dto.UnitDTO;
+import com.rentpal.agreement.dto.UserDTO;
 import com.rentpal.agreement.model.Property;
 import com.rentpal.agreement.model.Tenant;
 import com.rentpal.agreement.model.Unit;
+import com.rentpal.agreement.model.User;
 import org.springframework.context.MessageSource;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DTOModelMapper {
 
@@ -29,22 +32,32 @@ public class DTOModelMapper {
     public static PropertyDTO propertyModelDTOMapper(Property property) {
         PropertyDTO propertyDTO=new PropertyDTO();
 		propertyDTO.setId(property.getId());
-        propertyDTO.setUserId(property.getUser().getId());
+		if(property.getUser()!=null){
+            propertyDTO.setUserId(property.getUser().getId());
+        }
 		propertyDTO.setPropertyname(property.getPropertyName());
         propertyDTO.setAddressline_1(property.getAddressLine1());
 		propertyDTO.setAddressline_2(property.getAddressLine2());
 		propertyDTO.setPostal(property.getPostal());
 		propertyDTO.setCity(property.getCity());
-		propertyDTO.setCreationtime(Utils.getDate(property.getCreationTime()));
+		if(property.getCreationTime()!=null){
+		    propertyDTO.setCreationtime(Utils.getDate(property.getCreationTime()));
+        }
         return propertyDTO;
     }
 
+    public static Property propertyDTOModelMapper(PropertyDTO propertyDTO){
+       Property property=new Property();
+       property.setPropertyName(propertyDTO.getPropertyname());
+       property.setAddressLine1(propertyDTO.getAddressline_1());
+       property.setAddressLine2(propertyDTO.getAddressline_2());
+       property.setPostal(propertyDTO.getPostal());
+       property.setCity(propertyDTO.getCity());
+       return property;
+    }
+
     public static List<PropertyDTO> propertiesModelDTOMapper(List<Property> properties) {
-        List<PropertyDTO> propertiesDTO=new ArrayList<>();
-        properties.forEach(property -> {
-            propertiesDTO.add(DTOModelMapper.propertyModelDTOMapper(property));
-        });
-        return propertiesDTO;
+        return properties.stream().map(property -> DTOModelMapper.propertyModelDTOMapper(property)).collect(Collectors.toList());
     }
 
 
@@ -58,6 +71,7 @@ public class DTOModelMapper {
         UnitDTO unitDTO=new UnitDTO();
         unitDTO.setId(unit.getId());
         unitDTO.setPropertyId(unit.getProperty().getId());
+        unitDTO.setPropertyDTO(propertyModelDTOMapper(unit.getProperty()));
         unitDTO.setArea(unit.getArea());
         unitDTO.setBathrooms(unit.getBathrooms());
         unitDTO.setBedrooms(unit.getBedrooms());
@@ -70,11 +84,7 @@ public class DTOModelMapper {
     }
 
     public static List<UnitDTO> unitsModelDTOMapper(List<Unit> units){
-        List<UnitDTO> unitDTOs=new ArrayList<>();
-        units.forEach(unit -> {
-            unitDTOs.add(DTOModelMapper.unitModelDTOMapper(unit));
-        });
-        return unitDTOs;
+        return units.stream().map(unit -> DTOModelMapper.unitModelDTOMapper(unit)).collect(Collectors.toList());
     }
 
     public static TenantDTO tenantModelDTOMapper(Tenant tenant, MessageSource messageSource){
@@ -87,16 +97,19 @@ public class DTOModelMapper {
         tenantDTO.setMovein(Utils.getDate(tenant.getMovein()));
         tenantDTO.setMoveout(Utils.getDate(tenant.getMoveout()));
         tenantDTO.setUnitId(tenant.getUnit().getId());
+        tenantDTO.setUnitDTO(unitModelDTOMapper(tenant.getUnit()));
+        tenantDTO.setPropertyId(tenant.getUnit().getProperty().getId());
         tenantDTO.setOccupants(tenant.getOccupants());
-        tenantDTO.setNationality(Utils.getMessage(messageSource, tenant.getNationality()));
+        tenantDTO.setNationality(tenant.getNationality());
+        tenantDTO.setNationalityLabel(Utils.getMessage(messageSource, tenant.getNationality()));
         return tenantDTO;
     }
 
     public static Tenant tenantDTOModelMapper(TenantDTO tenantDTO) throws ParseException {
         Tenant tenant=new Tenant();
         tenant.setId(tenantDTO.getId());
-        tenant.setMovein(Utils.parseDateToMilliseconds(tenantDTO.getMovein()));
-        tenant.setMoveout(Utils.parseDateToMilliseconds(tenantDTO.getMoveout()));
+        tenant.setMovein(Utils.parseDate(tenantDTO.getMovein()));
+        tenant.setMoveout(Utils.parseDate(tenantDTO.getMoveout()));
         Unit unit=new Unit();
         unit.setId(tenantDTO.getUnitId());
         tenant.setUnit(unit);
@@ -107,5 +120,17 @@ public class DTOModelMapper {
         tenant.setNationality(tenantDTO.getNationality());
         tenant.setOccupants(tenantDTO.getOccupants());
         return tenant;
+    }
+
+    public static List<TenantDTO> tenantModelDTOMappers(List<Tenant> tenants, MessageSource messageSource){
+        return tenants.stream().map(tenant -> tenantModelDTOMapper(tenant,messageSource)).collect(Collectors.toList());
+    }
+
+    public static UserDTO userModelDTOMapper(User user){
+        UserDTO userDTO=new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setCreationTime(Utils.getDate(user.getCreationTime()));
+        return userDTO;
     }
 }

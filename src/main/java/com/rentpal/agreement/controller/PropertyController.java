@@ -1,13 +1,16 @@
 package com.rentpal.agreement.controller;
 
+import com.rentpal.agreement.common.Constants;
 import com.rentpal.agreement.common.DTOModelMapper;
 import com.rentpal.agreement.common.Utils;
 import com.rentpal.agreement.dto.PropertyDTO;
 import com.rentpal.agreement.dto.TenantDTO;
 import com.rentpal.agreement.model.*;
 import com.rentpal.agreement.service.interfaces.PropertyService;
+import com.rentpal.agreement.service.interfaces.TenantService;
 import com.rentpal.agreement.validator.PropertyValidator;
 import com.rentpal.agreement.validator.UnitValidator;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +18,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +35,8 @@ public class PropertyController {
      * PropertyService that holds business logic for performing CRUD operations
      */
     private final PropertyService propertyService;
+
+
 
     /**
     * Validates the property object
@@ -62,9 +68,16 @@ public class PropertyController {
      * @return the response entity
      */
     @GetMapping(value="/properties", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> getProperties(@RequestParam Optional<String> searchQuery){
-        List<PropertyDTO> propertyDTOS=DTOModelMapper.propertiesModelDTOMapper(propertyService.getProperties(searchQuery.orElse(null)));
-        return new ResponseEntity<>(Utils.getApiRequestResponse(propertyDTOS), HttpStatus.OK);
+    public ResponseEntity<Object> getProperties(@RequestParam Optional<String> searchQuery, @RequestParam(defaultValue = Constants.DEFAULT_START_PAGE) Integer pageIndex,
+                                                @RequestParam Optional<Integer> pageSize, @RequestParam(defaultValue = "false") Boolean countRequired){
+        List<PropertyDTO> propertyDTOS=DTOModelMapper.propertiesModelDTOMapper(propertyService.getProperties(searchQuery.orElse(null), pageIndex, pageSize.orElse(null)));
+        HttpHeaders responseHeaders = new HttpHeaders();
+        if(countRequired){
+            responseHeaders.set("X-Total-Count", propertyService.getPropertiesCount(searchQuery.orElse(null)).toString());
+        }
+        return ResponseEntity.ok()
+                .headers(responseHeaders)
+                .body(propertyDTOS);
     }
 
     /**
@@ -75,45 +88,45 @@ public class PropertyController {
      */
     @GetMapping(value = "/properties/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> getProperty(@PathVariable Long id){
-        return new ResponseEntity<>(Utils.getApiRequestResponse(DTOModelMapper.propertyModelDTOMapper(propertyService.getProperty(id))), HttpStatus.OK);
+        return new ResponseEntity<>(DTOModelMapper.propertyModelDTOMapper(propertyService.getProperty(id)), HttpStatus.OK);
     }
 
     /**
      * Adds property to the database.
      *
-     * @param property      the property
+     * @param propertyDTO     the property
      * @param bindingResult the binding result
      * @return the response entity
      * @throws BindException the bind exception
      */
     @PostMapping(value="/properties", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> addProperty(@RequestBody Property property, BindingResult bindingResult) throws BindException {
-        propertyValidator.validate(property, bindingResult);
+    public ResponseEntity<Object> addProperty(@RequestBody PropertyDTO propertyDTO, BindingResult bindingResult) throws BindException {
+        Property property=DTOModelMapper.propertyDTOModelMapper(propertyDTO);
+        propertyValidator.validate(propertyDTO, bindingResult);
         if(bindingResult.hasErrors()){
             throw new BindException(bindingResult);
         }
-        PropertyDTO propertyDTO=DTOModelMapper.propertyModelDTOMapper(propertyService.addProperty(property));
-        return new ResponseEntity<>(Utils.getApiRequestResponse(propertyDTO), HttpStatus.OK);
+        return new ResponseEntity<>(DTOModelMapper.propertyModelDTOMapper(propertyService.addProperty(property)), HttpStatus.OK);
     }
 
     /**
      * Updates property to the database.
      *
      * @param id            the id
-     * @param property      the property
+     * @param propertyDTO      the property
      * @param bindingResult the binding result
      * @return the response entity
      * @throws BindException the bind exception
      */
     @PutMapping(value= "/properties/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> updateProperty(@PathVariable Long id, @RequestBody Property property, BindingResult bindingResult) throws BindException {
-        propertyValidator.validate(property, bindingResult);
+    public ResponseEntity<Object> updateProperty(@PathVariable Long id, @RequestBody PropertyDTO propertyDTO, BindingResult bindingResult) throws BindException {
+        Property property=DTOModelMapper.propertyDTOModelMapper(propertyDTO);
+        propertyValidator.validate(propertyDTO, bindingResult);
         if(bindingResult.hasErrors()){
             throw new BindException(bindingResult);
         }
         property.setId(id);
-        PropertyDTO propertyDTO=DTOModelMapper.propertyModelDTOMapper(propertyService.updateProperty(property));
-        return new ResponseEntity<>(Utils.getApiRequestResponse(propertyDTO), HttpStatus.OK);
+        return new ResponseEntity<>(DTOModelMapper.propertyModelDTOMapper(propertyService.updateProperty(property)), HttpStatus.OK);
     }
 
     /**
@@ -128,8 +141,14 @@ public class PropertyController {
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 
-    /*@PostMapping(value = "/{id}/units/{unitId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value="/properties/bulkdelete", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void>  deleteProperties(@RequestParam Optional<List<Long>> propertyIds){
+        propertyService.deleteProperties(propertyIds.orElse(new ArrayList<>()));
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+    }
+
+    /*@PostMapping(value = "/properties/{id}/units/{unitId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> addTenant(@PathVariable Long id, @PathVariable Long unitId, @RequestBody TenantDTO tenantDTO){
-        return new ResponseEntity<>(Utils.getApiRequestResponse(propertyService.addTenant(id, unitId, tenantDTO)), HttpStatus.OK);
+        return new ResponseEntity<>(Utils.getApiRequestResponse(tenantService.addTenant(id, unitId, tenantDTO)), HttpStatus.OK);
     }*/
 }

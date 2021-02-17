@@ -8,6 +8,7 @@ package com.rentpal.agreement.repository;
 
 import com.rentpal.agreement.model.Property;
 import com.rentpal.agreement.model.Unit;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -20,7 +21,11 @@ public interface UnitRepository extends CrudRepository<Unit, Long> {
 
     boolean existsByDoorNumberAndFloorNumberAndPropertyAndIdNot(String doorNo, Integer floorNo, Property property, Long id);
 
-    List<Unit> getByProperty(Property property);
+    int countByProperty(Property property);
+
+    List<Unit> getByProperty(Property property, Pageable pageable);
+
+    List<Unit> findByIdInAndProperty(List<Long> ids, Property property);
 
     Optional<Unit> getByPropertyAndId(Property property, Long id);
 

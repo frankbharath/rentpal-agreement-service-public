@@ -2,8 +2,12 @@ package com.rentpal.agreement.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rentpal.agreement.AbstractTest;
+import com.rentpal.agreement.common.DTOModelMapper;
+import com.rentpal.agreement.common.Utils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,6 +23,7 @@ import java.io.IOException;
 @WebAppConfiguration
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ContextConfiguration
+@PrepareForTest({Utils.class, DTOModelMapper.class})
 public abstract class AbstractControllerTest {
 
     protected MockMvc mvc;
@@ -27,7 +32,7 @@ public abstract class AbstractControllerTest {
     protected WebApplicationContext webApplicationContext;
 
     @BeforeAll
-    protected void setUp() {
+    public void setUp() {
         mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .build();
     }
